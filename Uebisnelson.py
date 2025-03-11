@@ -26,7 +26,7 @@ def atualizar_planilha(sku, quantidade):
                 linha[13].value = quantidade  # Coluna N (índice 13)
                 
                 # Atualiza a data na coluna L 
-                linha[11].value = datetime.now().strftime("%d/%m/%Y")  # Coluna L (índice 11)
+                linha[11].value = datetime.now().strftime("%m/%d/%Y")  # Coluna L (índice 11)
                 
                 sku_encontrado = True
                 break
