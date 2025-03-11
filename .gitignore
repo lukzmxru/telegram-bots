@@ -1,0 +1,6 @@
+# Ignorar pastas __pycache__
+__pycache__/
+*/__pycache__/
+
+# Ignorar arquivos temporários do Code Runner
+tempCodeRunner*
