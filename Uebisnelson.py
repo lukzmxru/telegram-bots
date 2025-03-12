@@ -36,6 +36,9 @@ def atualizar_planilha(sku, quantidade):
                 linha[10].value = "SIM"
                 linha[16].value = "Concluído"
                 
+                if observacao:
+                    linha[14].value = observacao  # Coloca observação se tiver
+
                 sku_encontrado = True
                 break
         
@@ -62,6 +65,10 @@ async def processar_mensagem(update: Update, context):
                 sku = sku_match.group(1)
                 qtd = int(qtd_match.group(1))
                 
+                # Extrai a observação, se existir
+                observacao_match = re.search(r'Obs:\s*(.+)', caption, re.IGNORECASE)
+                observacao = observacao_match.group(1).strip() if observacao_match else None
+
                 # Atualiza a planilha
                 resultado = atualizar_planilha(sku, qtd)
                 print(resultado)
