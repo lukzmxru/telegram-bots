@@ -21,8 +21,15 @@ def atualizar_planilha(sku, quantidade, observacao=None):
         for linha in sheet.iter_rows(min_row=2):
             celula_sku = linha[0].value
             if celula_sku == sku:
-                # Atualiza a quantidade na coluna N
-                linha[13].value = quantidade
+                # Verifica se o status do inventário é "SIM" (coluna K)
+                status_inventario = linha[10].value  # Coluna K (índice 10)
+                if status_inventario == "SIM":
+                    # Soma a nova quantidade à quantidade existente na coluna N
+                    quantidade_existente = linha[13].value or 0  # Coluna N (índice 13)
+                    linha[13].value = quantidade_existente + quantidade
+                else:
+                    # Substitui a quantidade na coluna N
+                    linha[13].value = quantidade
                 
                 # Atualiza a data na coluna L (sem horário)
                 data_atual = datetime.today().date()  # Apenas data, sem horário
@@ -36,9 +43,10 @@ def atualizar_planilha(sku, quantidade, observacao=None):
                 linha[10].value = "SIM"
                 linha[16].value = "Concluído"
                 
+                # Adiciona a observação na coluna O, se existir
                 if observacao:
-                    linha[14].value = observacao  # Coloca observação se tiver
-
+                    linha[14].value = observacao  # Coluna O (índice 14)
+                
                 sku_encontrado = True
                 break
         
@@ -46,7 +54,7 @@ def atualizar_planilha(sku, quantidade, observacao=None):
             return f"❌ Eu não achei o sku {sku} na planilha."
         
         workbook.save(PLANILHA_LOCAL)
-        return f"✅ SKU {sku} atualizado com sucesso! Nova quantidade: {quantidade}"
+        return f"✅ SKU {sku} atualizado com sucesso! Nova quantidade: {linha[13].value}"
     
     except FileNotFoundError:
         return "❌ Planilha não encontrada. Verifique o caminho da planilha."
