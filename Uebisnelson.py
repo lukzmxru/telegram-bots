@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters
 import openpyxl
+from openpyxl.styles import Alignment, numbers
 import re
 import asyncio
 from datetime import datetime
@@ -13,24 +14,23 @@ GRUPO_DESTINO = -4783786888  # ID do grupo de skus
 # Atualiza a planilha com SKU, quantidade e data
 def atualizar_planilha(sku, quantidade):
     try:
-        # Abre a planilha
         workbook = openpyxl.load_workbook(PLANILHA_LOCAL)
         sheet = workbook.active
         
-        # Procura o SKU na coluna A
         sku_encontrado = False
-        for linha in sheet.iter_rows(min_row=2): #Ignora cabeçalho (linha 1)
-            celula_sku = linha[0].value #Coluna A = SKU
+        for linha in sheet.iter_rows(min_row=2):
+            celula_sku = linha[0].value
             if celula_sku == sku:
                 # Atualiza a quantidade na coluna N
                 linha[13].value = quantidade
                 
-                # Atualiza a data na coluna L como objeto datetime
-                linha[11].value = datetime.now()  
+                # Atualiza a data na coluna L (sem horário)
+                data_atual = datetime.today().date()  # Apenas data, sem horário
+                linha[11].value = data_atual
                 
-                # Formata a célula da data para "dd/mm/yyyy" e alinhamento à direita
-                sheet.cell(row=linha[11].row, column=12).number_format = "dd/mm/yyyy"  
-                sheet.cell(row=linha[11].row, column=12).alignment = openpyxl.styles.Alignment(horizontal='right')
+                # Formatação da célula para formato americano e alinhamento à direita
+                linha[11].number_format = "mm/dd/yyyy"  
+                linha[11].alignment = Alignment(horizontal='right')  
                 
                 # Atualiza colunas K e Q
                 linha[10].value = "SIM"
