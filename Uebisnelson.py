@@ -19,18 +19,22 @@ def atualizar_planilha(sku, quantidade):
         
         # Procura o SKU na coluna A
         sku_encontrado = False
-        for linha in sheet.iter_rows(min_row=2):  # Ignora cabeçalho (linha 1)
-            celula_sku = linha[0].value  # Coluna A = SKU
+        for linha in sheet.iter_rows(min_row=2): #Ignora cabeçalho (linha 1)
+            celula_sku = linha[0].value #Coluna A = SKU
             if celula_sku == sku:
                 # Atualiza a quantidade na coluna N
-                linha[13].value = quantidade  # Coluna N (índice 13)
+                linha[13].value = quantidade
                 
-                # Atualiza a data na coluna L 
-                linha[11].value = datetime.now().strftime("%m/%d/%Y")  # Coluna L (índice 11)
-
-                linha[10].value = "SIM" # Coluna K (índice 10)
-
-                linha[16].value = "Concluído"  # Coluna Q (índice 16)
+                # Atualiza a data na coluna L como objeto datetime
+                linha[11].value = datetime.now()  
+                
+                # Formata a célula da data para "dd/mm/yyyy" e alinhamento à direita
+                sheet.cell(row=linha[11].row, column=12).number_format = "dd/mm/yyyy"  
+                sheet.cell(row=linha[11].row, column=12).alignment = openpyxl.styles.Alignment(horizontal='right')
+                
+                # Atualiza colunas K e Q
+                linha[10].value = "SIM"
+                linha[16].value = "Concluído"
                 
                 sku_encontrado = True
                 break
@@ -38,7 +42,6 @@ def atualizar_planilha(sku, quantidade):
         if not sku_encontrado:
             return f"❌ Eu não achei o sku {sku} na planilha."
         
-        # Salva a planilha
         workbook.save(PLANILHA_LOCAL)
         return f"✅ SKU {sku} atualizado com sucesso! Nova quantidade: {quantidade}"
     
