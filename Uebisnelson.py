@@ -12,7 +12,7 @@ PLANILHA_LOCAL = r"C:\Users\m7tb\Kemira Oyj\EXPEDICAO - IGF Almoxarifado/ESTOQUE
 GRUPO_DESTINO = -4783786888  # ID do grupo de skus 
 
 # Atualiza a planilha com SKU, quantidade e data
-def atualizar_planilha(sku, quantidade):
+def atualizar_planilha(sku, quantidade, observacao=None):
     try:
         workbook = openpyxl.load_workbook(PLANILHA_LOCAL)
         sheet = workbook.active
@@ -29,7 +29,7 @@ def atualizar_planilha(sku, quantidade):
                 linha[11].value = data_atual
                 
                 # Formatação da célula para formato americano e alinhamento à direita
-                linha[11].number_format = "mm/dd/yyyy"  
+                linha[11].number_format = "m/dd/yyyy"  
                 linha[11].alignment = Alignment(horizontal='right')  
                 
                 # Atualiza colunas K e Q
@@ -66,11 +66,15 @@ async def processar_mensagem(update: Update, context):
                 qtd = int(qtd_match.group(1))
                 
                 # Extrai a observação, se existir
+                observacao = None
                 observacao_match = re.search(r'Obs:\s*(.+)', caption, re.IGNORECASE)
-                observacao = observacao_match.group(1).strip() if observacao_match else None
+                
+                if observacao_match:
+                    observacao = observacao_match.group(1).strip()
+                    print(f"Observação extraída: {observacao}")
 
                 # Atualiza a planilha
-                resultado = atualizar_planilha(sku, qtd)
+                resultado = atualizar_planilha(sku, qtd, observacao)
                 print(resultado)
                 
                 # Encaminha e remove a mensagem original
