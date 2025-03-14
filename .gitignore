@@ -4,3 +4,5 @@ __pycache__/
 
 # Ignorar arquivos temporários do Code Runner
 tempCodeRunner*
+
+*txt
