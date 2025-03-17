@@ -7,7 +7,7 @@ import asyncio
 from datetime import datetime
 
 # Configurações do bot
-TOKEN = "7581699837:AAEymdXK6RF9hdXOFwjFiMB4Iv9XM5v-7x8"  # Token do Uelbis
+TOKEN = "7581699837:AAEymdXK6RF9hdXOFwjFiMB4Iv9XM5v-7x8"  # Token do Webis
 PLANILHA_LOCAL = r"C:\Users\m7tb\Kemira Oyj\EXPEDICAO - IGF Almoxarifado/ESTOQUE ALMOX KEMIRA ORT.xlsx"  # Caminho da planilha local
 GRUPO_DESTINO = -4783786888  # ID do grupo de skus 
 

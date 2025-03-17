@@ -13,7 +13,7 @@ PASTA_SKUS = r"C:\Users\m7tb\Pictures\SKUs para enviar"
 async def processar_mensagem(update: Update, _):
     try:
         if update.message.photo and update.message.caption:
-            # Regex ajustada: só aceita exatamente 8 dígitos após "SKU:", sem letras ou caracteres extras
+            # Regex só aceita exatamente 8 dígitos após "SKU:", sem letras ou caracteres extras
             sku_match = re.search(
                 r'(?i)SKU:\s*(\d{8})(?:\D|$)',  # (?i) = case-insensitive, (?:\D|$) = bloqueia dígitos extras
                 update.message.caption
