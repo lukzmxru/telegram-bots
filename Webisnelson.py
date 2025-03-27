@@ -8,7 +8,7 @@ from datetime import datetime
 
 # Configurações do bot
 TOKEN = "7581699837:AAEymdXK6RF9hdXOFwjFiMB4Iv9XM5v-7x8"  # Token do Webis
-PLANILHA_LOCAL = r"C:\Users\m7tb\Kemira Oyj\EXPEDICAO - IGF Almoxarifado/ESTOQUE ALMOX KEMIRA ORT.xlsx"  # Caminho da planilha local
+PLANILHA_LOCAL = r"C:\Users\m7tb\Documents/ESTOQUE ALMOX KEMIRA ORT.xlsx"  # Caminho da planilha local
 GRUPO_DESTINO = -4783786888  # ID do grupo de skus 
 
 # Atualiza a planilha com SKU, quantidade e data
@@ -100,7 +100,7 @@ def main():
     app = Application.builder().token(TOKEN).build()
     app.add_handler(MessageHandler(filters.PHOTO & filters.CAPTION, processar_mensagem))
     
-    print("Uebisnelson está observando o grupo...")
+    print("Webisnelson está observando o grupo...")
     app.run_polling()
 
 if __name__ == "__main__":

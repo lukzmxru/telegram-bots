@@ -37,7 +37,7 @@ async def processar_mensagem(update: Update, _):
                 await update.message.delete()
                 
             else:
-                await update.message.reply_text("❌ Arruma essa bosta de sku ai poha")
+                await update.message.reply_text("❌ Arruma esse sku ai")
                 
     except Exception as e:
         print(f"ERRO: {str(e)}")
